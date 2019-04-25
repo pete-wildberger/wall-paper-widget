@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
     <script src="main.js"></script>
   </head>
@@ -17,7 +18,21 @@
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span>
-        <p>Some text in the Modal..</p>
+        <span id="walls">
+          <div class="row">
+            <div class="col-6">
+              <h3>Height</h3>
+              <span class="col-3"><label for="feet">ft:</label> <input name="feet" type="number"/></span>
+              <span class="col-3"><label for="inches">in:</label> <input name="inches" type="number"/></span>
+            </div>
+            <div class="col-6">
+              <h3>Width</h3>
+              <span class="col-3"><label for="feet">ft:</label> <input name="feet" type="number"/></span>
+              <span class="col-3"><label for="inches">in:</label> <input name="inches" type="number"/></span>
+            </div>
+          </div>
+          <button class="addRow">Add Wall</button>
+        </span>
       </div>
     </div>
   </body>
