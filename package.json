@@ -1,0 +1,12 @@
+{
+  "name": "wall-paper-widget",
+  "version": "1.0.0",
+  "description": "Wallpaper area calculating widget",
+  "main": "index.js",
+  "author": "Peter Wildberger",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^11.13.7",
+    "typescript": "^3.4.5"
+  }
+}
