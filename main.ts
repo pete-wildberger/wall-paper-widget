@@ -43,11 +43,39 @@ class WallPaper {
     });
   };
   addRow(parentDiv: string, id: number): void {
+    const labels: string[] = ['Height', 'Width'];
     const row = document.createElement('div');
     const rm = document.createElement('button');
     rm.setAttribute('onclick', `removeElement('${parentDiv}','id_${id}')`);
-    row.setAttribute('class', 'row');
+    row.className = 'row';
+    for (let index = 0; index < 2; index++) {
+      row.appendChild(this.generateInputs(labels[index]));
+    }
     document.getElementById(parentDiv)!.appendChild(row);
+  }
+  generateInputs(title: string): HTMLElement {
+    const labels: string[] = ['feet', 'inches'];
+    const col = document.createElement('div');
+    const h = document.createElement('h3');
+    const text = document.createTextNode(title);
+    h.appendChild(text);
+    col.className = 'col-6';
+    col.appendChild(h);
+    for (let i = 0; i < 2; i++) {
+      const span = document.createElement('span');
+      span.className = 'col-3';
+      const label = document.createElement('label');
+      const input = document.createElement('input');
+      const text = document.createTextNode(labels[i]);
+      input.setAttribute('type', 'number');
+      input.setAttribute('name', labels[i]);
+      label.setAttribute('for', labels[i]);
+      label.appendChild(text);
+      span.appendChild(label);
+      span.appendChild(input);
+      col.appendChild(span);
+    }
+    return col;
   }
   removeElement(parentDiv: string, childDiv: string): void {
     if (childDiv === parentDiv) {

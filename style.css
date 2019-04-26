@@ -12,7 +12,9 @@ html {
 .head {
   background: none;
 }
-
+input {
+  width: 30%;
+}
 /* grid system -- mobile first! */
 .row {
   display: flex;
