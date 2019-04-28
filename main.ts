@@ -34,29 +34,39 @@ class WallPaper {
         this.$modal.style.display = 'none';
       }
     };
-    this.$addRows.forEach((elem, i) => {
+    this.$addRows.forEach(elem => {
       const el = <Element>elem.parentElement!.parentElement;
-      console.log(el);
       const id: string = el.getAttributeNode('id')!.value;
+      const parentRef = document.getElementById(id) as HTMLElement;
+      const before = document.getElementById(`${id}-butt`) as HTMLElement;
       elem.addEventListener('click', () => {
-        this.addRow(id, i);
+        this.addRow(parentRef, before);
       });
     });
   };
-  addRow(parentDiv: string, id: number): void {
+  addRow(parentDiv: HTMLElement, buttonRef: HTMLElement): void {
     const labels: string[] = ['Height', 'Width'];
     const elId: number = Array.from(document.getElementsByClassName('meassure')).length;
     const row = document.createElement('div');
-    const rm = document.createElement('button');
-    const before = document.getElementById(`${parentDiv}-butt`);
     row.setAttribute('id', `id_${elId}`);
-    rm.setAttribute('onclick', `removeElement('${parentDiv}','id_${elId}')`);
     row.classList.add('row');
     row.classList.add('meassure');
+    const title = document.createElement('div');
+    title.classList.add('col-2');
+    const buttonCol = document.createElement('div');
+    buttonCol.classList.add('col-2');
+    const rm = document.createElement('button');
+    rm.addEventListener('click', () => {
+      this.removeElement(parentDiv.id, `id_${elId}`);
+    });
+
+    buttonCol.appendChild(rm);
+    row.appendChild(title);
     for (let index = 0; index < 2; index++) {
       row.appendChild(this.generateInputs(labels[index]));
     }
-    document.getElementById(parentDiv)!.insertBefore(row, before);
+    row.appendChild(buttonCol);
+    parentDiv!.insertBefore(row, buttonRef);
   }
 
   generateInputs(title: string): HTMLElement {

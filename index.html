@@ -10,47 +10,49 @@
     <script src="main.js"></script>
   </head>
   <body>
-    <!-- Trigger/Open The Modal -->
-    <button id="myBtn">Calculate</button>
+    <div id="wall-cont">
+      <!-- Trigger/Open The Modal -->
+      <button id="myBtn">Calculate</button>
 
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content">
-        <div class="row">
-          <div class="col-10"></div>
-          <div class="close col-2">&times;</div>
-        </div>
-        <div class="row" id="Wall">
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
           <div class="row">
-            <div class="col-2">
-              <h3 class="centered-text">
-                Wall 1
-              </h3>
-            </div>
-            <div class="col-4">
-              <h3>Height</h3>
-              <span class="col-2"><label for="feet">feet:</label> <input name="feet" type="number"/></span>
-              <span class="col-2"><label for="inches">inches:</label> <input name="inches" type="number"/></span>
-            </div>
-            <div class="col-4">
-              <h3>Width</h3>
-              <span class="col-2"><label for="feet">feet:</label> <input name="feet" type="number"/></span>
-              <span class="col-2"><label for="inches">inches:</label> <input name="inches" type="number"/></span>
-            </div>
-            <div class="col-2"></div>
+            <div class="col-10"></div>
+            <div class="close col-2">&times;</div>
           </div>
-          <div class="row" id="Wall-butt">
-            <button class="addRow">Add Wall</button>
+          <div class="row" id="Wall">
+            <div class="row meassure">
+              <div class="col-2">
+                <h3 class="centered-text">
+                  Wall 1
+                </h3>
+              </div>
+              <div class="col-4">
+                <h3>Height</h3>
+                <span class="col-2"><label for="feet">feet:</label> <input name="feet" type="number"/></span>
+                <span class="col-2"><label for="inches">inches:</label> <input name="inches" type="number"/></span>
+              </div>
+              <div class="col-4">
+                <h3>Width</h3>
+                <span class="col-2"><label for="feet">feet:</label> <input name="feet" type="number"/></span>
+                <span class="col-2"><label for="inches">inches:</label> <input name="inches" type="number"/></span>
+              </div>
+              <div class="col-2"></div>
+            </div>
+            <div class="row" id="Wall-butt">
+              <button class="addRow">Add Wall</button>
+            </div>
           </div>
-        </div>
 
-        <div class="row" id="Window">
-          <div class="row" id="Window-butt"><button class="addRow">Add Window</button></div>
-        </div>
+          <div class="row" id="Window">
+            <div class="row" id="Window-butt"><button class="addRow">Add Window</button></div>
+          </div>
 
-        <div class="row" id="Door">
-          <div class="row" id="Door-butt"><button class="addRow">Add Door</button></div>
+          <div class="row" id="Door">
+            <div class="row" id="Door-butt"><button class="addRow">Add Door</button></div>
+          </div>
         </div>
       </div>
     </div>
