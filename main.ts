@@ -35,7 +35,8 @@ class WallPaper {
       }
     };
     this.$addRows.forEach((elem, i) => {
-      const el = <Element>elem.parentElement;
+      const el = <Element>elem.parentElement!.parentElement;
+      console.log(el);
       const id: string = el.getAttributeNode('id')!.value;
       elem.addEventListener('click', () => {
         this.addRow(id, i);
@@ -44,26 +45,31 @@ class WallPaper {
   };
   addRow(parentDiv: string, id: number): void {
     const labels: string[] = ['Height', 'Width'];
+    const elId: number = Array.from(document.getElementsByClassName('meassure')).length;
     const row = document.createElement('div');
     const rm = document.createElement('button');
-    rm.setAttribute('onclick', `removeElement('${parentDiv}','id_${id}')`);
-    row.className = 'row';
+    const before = document.getElementById(`${parentDiv}-butt`);
+    row.setAttribute('id', `id_${elId}`);
+    rm.setAttribute('onclick', `removeElement('${parentDiv}','id_${elId}')`);
+    row.classList.add('row');
+    row.classList.add('meassure');
     for (let index = 0; index < 2; index++) {
       row.appendChild(this.generateInputs(labels[index]));
     }
-    document.getElementById(parentDiv)!.appendChild(row);
+    document.getElementById(parentDiv)!.insertBefore(row, before);
   }
+
   generateInputs(title: string): HTMLElement {
     const labels: string[] = ['feet', 'inches'];
     const col = document.createElement('div');
     const h = document.createElement('h3');
     const text = document.createTextNode(title);
     h.appendChild(text);
-    col.className = 'col-6';
+    col.className = 'col-4';
     col.appendChild(h);
     for (let i = 0; i < 2; i++) {
       const span = document.createElement('span');
-      span.className = 'col-3';
+      span.className = 'col-2';
       const label = document.createElement('label');
       const input = document.createElement('input');
       const text = document.createTextNode(labels[i]);
