@@ -3,6 +3,21 @@ window.onload = function() {
   wallPaper.init();
 };
 
+function elementBuilder(tagName: string, options?: { [key: string]: any }): HTMLElement {
+  const element: HTMLElement = document.createElement(tagName);
+  if (options !== undefined) {
+    for (const attr in options) {
+      if (attr === 'classList') {
+        for (const className of options[attr]) {
+          element.classList.add(className);
+        }
+      } else {
+        element.setAttribute(attr, options[attr]);
+      }
+    }
+  }
+  return element;
+}
 class WallPaper {
   $modal: HTMLElement;
   $btn: HTMLElement;
@@ -47,14 +62,9 @@ class WallPaper {
   addRow(parentDiv: HTMLElement, buttonRef: HTMLElement): void {
     const labels: string[] = ['Height', 'Width'];
     const elId: number = Array.from(document.getElementsByClassName('meassure')).length;
-    const row = document.createElement('div');
-    row.setAttribute('id', `id_${elId}`);
-    row.classList.add('row');
-    row.classList.add('meassure');
-    const title = document.createElement('div');
-    title.classList.add('col-2');
-    const buttonCol = document.createElement('div');
-    buttonCol.classList.add('col-2');
+    const row = elementBuilder('div', { id: `id_${elId}`, classList: ['row', 'meassure'] });
+    const title = elementBuilder('div', { classList: ['col-2'] });
+    const buttonCol = elementBuilder('div', { classList: ['col-2'] });
     const rm = document.createElement('button');
     rm.addEventListener('click', () => {
       this.removeElement(parentDiv.id, `id_${elId}`);
@@ -71,22 +81,15 @@ class WallPaper {
 
   generateInputs(title: string): HTMLElement {
     const labels: string[] = ['feet', 'inches'];
-    const col = document.createElement('div');
+    const col = elementBuilder('div', { classList: ['col-4'] });
     const h = document.createElement('h3');
-    const text = document.createTextNode(title);
-    h.appendChild(text);
-    col.className = 'col-4';
+    h.innerText = title;
     col.appendChild(h);
     for (let i = 0; i < 2; i++) {
-      const span = document.createElement('span');
-      span.className = 'col-2';
-      const label = document.createElement('label');
-      const input = document.createElement('input');
-      const text = document.createTextNode(labels[i]);
-      input.setAttribute('type', 'number');
-      input.setAttribute('name', labels[i]);
-      label.setAttribute('for', labels[i]);
-      label.appendChild(text);
+      const span = elementBuilder('span', { classList: ['col-2'] });
+      const input = elementBuilder('input', { type: 'number', name: labels[i] });
+      const label = elementBuilder('label', { for: labels[i] });
+      label.innerText = labels[i];
       span.appendChild(label);
       span.appendChild(input);
       col.appendChild(span);
