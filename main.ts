@@ -3,17 +3,15 @@ window.onload = function() {
   wallPaper.init();
 };
 
-function elementBuilder(tagName: string, options?: { [key: string]: any }): HTMLElement {
+function elementBuilder(tagName: string, options: { [key: string]: any }): HTMLElement {
   const element: HTMLElement = document.createElement(tagName);
-  if (options !== undefined) {
-    for (const attr in options) {
-      if (attr === 'classList') {
-        for (const className of options[attr]) {
-          element.classList.add(className);
-        }
-      } else {
-        element.setAttribute(attr, options[attr]);
+  for (const attr in options) {
+    if (attr === 'classList') {
+      for (const className of options[attr]) {
+        element.classList.add(className);
       }
+    } else {
+      element.setAttribute(attr, options[attr]);
     }
   }
   return element;
