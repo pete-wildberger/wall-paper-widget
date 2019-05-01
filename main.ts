@@ -20,6 +20,7 @@ class WallPaper {
   $modal: HTMLElement;
   $btn: HTMLElement;
   $span: HTMLElement;
+  $calculate: HTMLElement;
   $addRows: Array<Element>;
 
   constructor() {
@@ -30,6 +31,7 @@ class WallPaper {
     // Get the <span> element that closes the modal
     this.$span = document.getElementsByClassName('close')[0] as HTMLElement;
     this.$addRows = Array.from(document.getElementsByClassName('addRow'));
+    this.$calculate = document.getElementById('calculate') as HTMLElement;
   }
   init = () => {
     console.log('App start');
@@ -40,6 +42,9 @@ class WallPaper {
     // When the user clicks on <span> (x), close the modal
     this.$span.onclick = () => {
       this.$modal.style.display = 'none';
+    };
+    this.$calculate.onclick = () => {
+      this.calculateArea();
     };
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = event => {
@@ -61,23 +66,25 @@ class WallPaper {
     const labels: string[] = ['Height', 'Width'];
     const elId: number = Array.from(document.getElementsByClassName('meassure')).length;
     const row = elementBuilder('div', { id: `id_${elId}`, classList: ['row', 'meassure'] });
-    const title = elementBuilder('div', { classList: ['col-2'] });
+    const titleCont = elementBuilder('div', { classList: ['col-2'] });
+    const title = document.createElement('h3');
     const buttonCol = elementBuilder('div', { classList: ['col-2'] });
     const rm = document.createElement('button');
     rm.addEventListener('click', () => {
       this.removeElement(parentDiv.id, `id_${elId}`);
     });
-
     buttonCol.appendChild(rm);
-    row.appendChild(title);
+    title.innerText = parentDiv.id;
+    titleCont.appendChild(title);
+    row.appendChild(titleCont);
     for (let index = 0; index < 2; index++) {
-      row.appendChild(this.generateInputs(labels[index]));
+      row.appendChild(this.generateInputs(labels[index], parentDiv.id));
     }
     row.appendChild(buttonCol);
     parentDiv!.insertBefore(row, buttonRef);
   }
 
-  generateInputs(title: string): HTMLElement {
+  generateInputs(title: string, className: string): HTMLElement {
     const labels: string[] = ['feet', 'inches'];
     const col = elementBuilder('div', { classList: ['col-4'] });
     const h = document.createElement('h3');
@@ -85,7 +92,7 @@ class WallPaper {
     col.appendChild(h);
     for (let i = 0; i < 2; i++) {
       const span = elementBuilder('span', { classList: ['col-2'] });
-      const input = elementBuilder('input', { type: 'number', name: labels[i] });
+      const input = elementBuilder('input', { type: 'number', name: labels[i], classList: [className] });
       const label = elementBuilder('label', { for: labels[i] });
       label.innerText = labels[i];
       span.appendChild(label);
@@ -106,4 +113,55 @@ class WallPaper {
       return;
     }
   }
+  getArea(inputs: HTMLInputElement[]): number {
+    let faces: number[] = [];
+    let areas: number[] = [];
+    inputs.forEach((input, i, arr) => {
+      if (i % 2 === 0) {
+        const feet = input.valueAsNumber * 12;
+        const inches = arr[i + 1].valueAsNumber;
+        faces.push(feet + inches);
+      }
+    });
+    console.log(faces);
+    faces.forEach((val, i, arr) => {
+      if (i % 2 === 0) {
+        const height = val;
+        const width = arr[i + 1];
+        if (typeof height === 'number' && typeof width === 'number') {
+          areas.push((height / 12) * (width / 12));
+        }
+      }
+    });
+    console.log(areas);
+    return areas.reduce((a, b) => {
+      if (typeof a === 'number' && typeof b === 'number') {
+        return a + b;
+      }
+    });
+  }
+  getWallArea = () => {
+    const wallInputs: HTMLInputElement[] = Array.from(document.getElementsByClassName('Wall')) as HTMLInputElement[];
+    return this.getArea(wallInputs);
+  };
+
+  getWindowArea = () => {
+    const windowInputs: HTMLInputElement[] = Array.from(
+      document.getElementsByClassName('Window')
+    ) as HTMLInputElement[];
+    if (windowInputs.length > 0) {
+      return this.getArea(windowInputs);
+    }
+    return 0;
+  };
+  getDoorArea = () => {
+    const doorInputs: HTMLInputElement[] = Array.from(document.getElementsByClassName('Door')) as HTMLInputElement[];
+    if (doorInputs.length > 0) {
+      return this.getArea(doorInputs);
+    }
+    return 0;
+  };
+  calculateArea = () => {
+    console.log(this.getWallArea());
+  };
 }
