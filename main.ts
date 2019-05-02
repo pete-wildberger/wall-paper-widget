@@ -21,6 +21,7 @@ class WallPaper {
   $btn: HTMLElement;
   $span: HTMLElement;
   $calculate: HTMLElement;
+  $result: HTMLElement;
   $addRows: Array<Element>;
 
   constructor() {
@@ -32,6 +33,7 @@ class WallPaper {
     this.$span = document.getElementsByClassName('close')[0] as HTMLElement;
     this.$addRows = Array.from(document.getElementsByClassName('addRow'));
     this.$calculate = document.getElementById('calculate') as HTMLElement;
+    this.$result = document.getElementById('result') as HTMLElement;
   }
   init = () => {
     console.log('App start');
@@ -161,7 +163,18 @@ class WallPaper {
     }
     return 0;
   };
+  displayResult = (result: string): void => {
+    this.$result.innerText = result;
+  };
   calculateArea = () => {
-    console.log(this.getWallArea());
+    const walls = this.getWallArea();
+    console.log(walls);
+
+    const windows = this.getWindowArea();
+    console.log(windows);
+    const doors = this.getDoorArea();
+    console.log(doors);
+    const result = String((walls - windows - doors) * 1.1);
+    this.displayResult(result);
   };
 }
