@@ -1,5 +1,5 @@
 window.onload = function() {
-  const wallPaper = new WallPaper();
+  const wallPaper = new WallPaper(1.5 * 33);
   wallPaper.init();
 };
 
@@ -17,6 +17,7 @@ function elementBuilder(tagName: string, options: { [key: string]: any }): HTMLE
   return element;
 }
 class WallPaper {
+  roll_area: number;
   $modal: HTMLElement;
   $btn: HTMLElement;
   $span: HTMLElement;
@@ -24,7 +25,8 @@ class WallPaper {
   $result: HTMLElement;
   $addRows: Array<Element>;
 
-  constructor() {
+  constructor(roll_area: number) {
+    this.roll_area = roll_area;
     // Get the modal
     this.$modal = document.getElementById('myModal') as HTMLElement;
     // Get the button that opens the modal
@@ -66,17 +68,19 @@ class WallPaper {
   };
   addRow(parentDiv: HTMLElement, buttonRef: HTMLElement): void {
     const labels: string[] = ['Height', 'Width'];
+    console.log(parentDiv.childElementCount);
     const elId: number = Array.from(document.getElementsByClassName('meassure')).length;
     const row = elementBuilder('div', { id: `id_${elId}`, classList: ['row', 'meassure'] });
     const titleCont = elementBuilder('div', { classList: ['col-2'] });
     const title = document.createElement('h3');
     const buttonCol = elementBuilder('div', { classList: ['col-2'] });
-    const rm = document.createElement('button');
+    const rm = elementBuilder('button', { style: { color: 'white', 'background-color': 'red' } });
+    rm.innerText = 'X';
     rm.addEventListener('click', () => {
       this.removeElement(parentDiv.id, `id_${elId}`);
     });
     buttonCol.appendChild(rm);
-    title.innerText = parentDiv.id;
+    title.innerText = `${parentDiv.id} ${parentDiv.childElementCount}`;
     titleCont.appendChild(title);
     row.appendChild(titleCont);
     for (let index = 0; index < 2; index++) {
@@ -84,6 +88,7 @@ class WallPaper {
     }
     row.appendChild(buttonCol);
     parentDiv!.insertBefore(row, buttonRef);
+    parentDiv!.insertBefore(document.createElement('hr'), buttonRef);
   }
 
   generateInputs(title: string, className: string): HTMLElement {
@@ -94,7 +99,7 @@ class WallPaper {
     col.appendChild(h);
     for (let i = 0; i < 2; i++) {
       const span = elementBuilder('span', { classList: ['col-2'] });
-      const input = elementBuilder('input', { type: 'number', name: labels[i], classList: [className] });
+      const input = elementBuilder('input', { type: 'number', name: labels[i], classList: [className], value: '0' });
       const label = elementBuilder('label', { for: labels[i] });
       label.innerText = labels[i];
       span.appendChild(label);
@@ -122,10 +127,14 @@ class WallPaper {
       if (i % 2 === 0) {
         const feet = input.valueAsNumber * 12;
         const inches = arr[i + 1].valueAsNumber;
-        faces.push(feet + inches);
+        if (feet === 0 && inches === 0) {
+          alert('Please enter values greater than zero into the feet inputs');
+          return;
+        } else {
+          faces.push(feet + inches);
+        }
       }
     });
-    console.log(faces);
     faces.forEach((val, i, arr) => {
       if (i % 2 === 0) {
         const height = val;
@@ -135,7 +144,6 @@ class WallPaper {
         }
       }
     });
-    console.log(areas);
     return areas.reduce((a, b) => {
       if (typeof a === 'number' && typeof b === 'number') {
         return a + b;
@@ -168,13 +176,11 @@ class WallPaper {
   };
   calculateArea = () => {
     const walls = this.getWallArea();
-    console.log(walls);
-
     const windows = this.getWindowArea();
-    console.log(windows);
     const doors = this.getDoorArea();
-    console.log(doors);
-    const result = String((walls - windows - doors) * 1.1);
+    const sq_feet = (walls - windows - doors) * 1.1; //plus 10%
+    const rolls = Math.ceil(sq_feet / this.roll_area);
+    const result = `You need ${String(rolls)} rolls`;
     this.displayResult(result);
   };
 }

@@ -19,11 +19,19 @@
         <!-- Modal content -->
         <div class="modal-content">
           <div class="row">
-            <div class="col-10"></div>
+            <div class="col-4"></div>
+            <div class="col-4">
+              <img
+                style="width: 100%"
+                src="https://static1.squarespace.com/static/583b5d3ee4fcb5b7cf43ff02/t/5c9a2c35c8302589f7b3a4ad/1555701281642/?format=1500w"
+                alt="she she"
+              />
+            </div>
+            <div class="col-2"></div>
             <div class="close col-2">&times;</div>
           </div>
           <div class="cont" id="Wall">
-            <div class="row meassure">
+            <div class="row">
               <div class="col-2">
                 <h3 class="centered-text">
                   Wall 1
@@ -32,38 +40,42 @@
               <div class="col-4">
                 <h3>Height</h3>
                 <span class="col-2"
-                  ><label for="feet">feet:</label> <input class="Wall" name="feet" type="number"
+                  ><label for="feet">feet:</label> <input class="Wall" name="feet" type="number" value="0"
                 /></span>
                 <span class="col-2"
-                  ><label for="inches">inches:</label> <input class="Wall" name="inches" type="number"
+                  ><label for="inches">inches:</label> <input class="Wall" name="inches" type="number" value="0"
                 /></span>
               </div>
               <div class="col-4">
                 <h3>Width</h3>
                 <span class="col-2"
-                  ><label for="feet">feet:</label> <input class="Wall" name="feet" type="number"
+                  ><label for="feet">feet:</label> <input class="Wall" name="feet" type="number" value="0"
                 /></span>
                 <span class="col-2"
-                  ><label for="inches">inches:</label> <input class="Wall" name="inches" type="number"
+                  ><label for="inches">inches:</label> <input class="Wall" name="inches" type="number" value="0"
                 /></span>
               </div>
               <div class="col-2"></div>
             </div>
-            <div class="row" id="Wall-butt">
+            <hr />
+            <div class="row" id="Wall-butt" style="justify-content: center">
               <button class="addRow">Add Wall</button>
             </div>
           </div>
 
           <div class="cont" id="Window">
-            <div class="row"></div>
-            <div class="row" id="Window-butt"><button class="addRow">Add Window</button></div>
+            <div class="row" style="justify-content: center" id="Window-butt">
+              <button class="addRow">Add Window</button>
+            </div>
           </div>
 
           <div class="cont" id="Door">
-            <div class="row" id="Door-butt"><button class="addRow">Add Door</button></div>
+            <div class="row" style="justify-content: center" id="Door-butt">
+              <button class="addRow">Add Door</button>
+            </div>
           </div>
           <div class="row" id="result"></div>
-          <div class="row">
+          <div class="row" style="justify-content: center">
             <button id="calculate">Calculate</button>
           </div>
         </div>
