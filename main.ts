@@ -16,8 +16,14 @@ function elementBuilder(tagName: string, options: { [key: string]: any }): HTMLE
   }
   return element;
 }
+function addStyle(elem: HTMLElement, options: { [key: string]: string }): void {
+  for (const key in options) {
+    elem.style[key] = options[key];
+  }
+}
 class WallPaper {
   roll_area: number;
+  $ref: Element;
   $modal: HTMLElement;
   $btn: HTMLElement;
   $span: HTMLElement;
@@ -29,11 +35,12 @@ class WallPaper {
     this.roll_area = roll_area;
     // Get the modal
     this.$modal = document.getElementById('myModal') as HTMLElement;
+    this.$ref = document.getElementById('myModal') as Element;
     // Get the button that opens the modal
     this.$btn = document.getElementById('myBtn') as HTMLElement;
     // Get the <span> element that closes the modal
     this.$span = document.getElementsByClassName('close')[0] as HTMLElement;
-    this.$addRows = Array.from(document.getElementsByClassName('addRow'));
+    this.$addRows = Array.from(this.$ref.getElementsByClassName('addRow'));
     this.$calculate = document.getElementById('calculate') as HTMLElement;
     this.$result = document.getElementById('result') as HTMLElement;
   }
@@ -66,21 +73,30 @@ class WallPaper {
       });
     });
   };
-  addRow(parentDiv: HTMLElement, buttonRef: HTMLElement): void {
+  addRow = (parentDiv: HTMLElement, buttonRef: HTMLElement): void => {
     const labels: string[] = ['Height', 'Width'];
-    console.log(parentDiv.childElementCount);
-    const elId: number = Array.from(document.getElementsByClassName('meassure')).length;
+    const elId: number = parentDiv.childElementCount;
     const row = elementBuilder('div', { id: `id_${elId}`, classList: ['row', 'meassure'] });
     const titleCont = elementBuilder('div', { classList: ['col-2'] });
+    addStyle(titleCont, { display: 'flex', justifyContent: 'center', alignItems: 'center' });
     const title = document.createElement('h3');
     const buttonCol = elementBuilder('div', { classList: ['col-2'] });
-    const rm = elementBuilder('button', { style: { color: 'white', 'background-color': 'red' } });
+    addStyle(buttonCol, { display: 'flex', justifyContent: 'center', alignItems: 'center' });
+    const rm = document.createElement('button');
+    addStyle(rm, {
+      color: 'black',
+      height: '2rem',
+      border: '2px solid black',
+      width: '2rem',
+      backgroundColor: 'white',
+      borderRadius: '50%'
+    });
     rm.innerText = 'X';
     rm.addEventListener('click', () => {
       this.removeElement(parentDiv.id, `id_${elId}`);
     });
     buttonCol.appendChild(rm);
-    title.innerText = `${parentDiv.id} ${parentDiv.childElementCount}`;
+    title.innerText = `${parentDiv.id} ${elId}`;
     titleCont.appendChild(title);
     row.appendChild(titleCont);
     for (let index = 0; index < 2; index++) {
@@ -88,8 +104,7 @@ class WallPaper {
     }
     row.appendChild(buttonCol);
     parentDiv!.insertBefore(row, buttonRef);
-    parentDiv!.insertBefore(document.createElement('hr'), buttonRef);
-  }
+  };
 
   generateInputs(title: string, className: string): HTMLElement {
     const labels: string[] = ['feet', 'inches'];
@@ -99,16 +114,21 @@ class WallPaper {
     col.appendChild(h);
     for (let i = 0; i < 2; i++) {
       const span = elementBuilder('span', { classList: ['col-2'] });
-      const input = elementBuilder('input', { type: 'number', name: labels[i], classList: [className], value: '0' });
+      const input = elementBuilder('input', {
+        type: 'number',
+        name: labels[i],
+        classList: [className, 'input-style'],
+        value: '0'
+      });
       const label = elementBuilder('label', { for: labels[i] });
-      label.innerText = labels[i];
+      label.innerText = `${labels[i]}: `;
       span.appendChild(label);
       span.appendChild(input);
       col.appendChild(span);
     }
     return col;
   }
-  removeElement(parentDiv: string, childDiv: string): void {
+  removeElement = (parentDiv: string, childDiv: string): void => {
     if (childDiv === parentDiv) {
       alert('The parent div cannot be removed.');
     } else if (document.getElementById(childDiv)) {
@@ -119,22 +139,39 @@ class WallPaper {
       alert('Child div has already been removed or does not exist.');
       return;
     }
+  };
+  validatePairs(a: number, b: number): boolean {
+    if (a < 0 || b < 0) {
+      alert('Please enter values greater than zero into inputs before continuing');
+      return false;
+    }
+    if (a === 0 && b === 0) {
+      alert('Please enter values greater than zero into inputs before continuing');
+      return false;
+    }
+    const str = parseFloat(`${a}`);
+    if (!(!isNaN(a) && (str | 0) === str)) {
+      alert('Please enter integers into the feet inputs');
+      return false;
+    }
+    return true;
   }
   getArea(inputs: HTMLInputElement[]): number {
-    let faces: number[] = [];
-    let areas: number[] = [];
-    inputs.forEach((input, i, arr) => {
-      if (i % 2 === 0) {
+    const faces: number[] = [];
+    const areas: number[] = [];
+    const input_len = inputs.length;
+    for (let index = 0; index < input_len; index++) {
+      const input = inputs[index];
+      if (index % 2 === 0) {
         const feet = input.valueAsNumber * 12;
-        const inches = arr[i + 1].valueAsNumber;
-        if (feet === 0 && inches === 0) {
-          alert('Please enter values greater than zero into the feet inputs');
-          return;
+        const inches = inputs[index + 1].valueAsNumber;
+        if (this.validatePairs(feet, inches)) {
+          return 0;
         } else {
           faces.push(feet + inches);
         }
       }
-    });
+    }
     faces.forEach((val, i, arr) => {
       if (i % 2 === 0) {
         const height = val;
@@ -151,13 +188,13 @@ class WallPaper {
     });
   }
   getWallArea = () => {
-    const wallInputs: HTMLInputElement[] = Array.from(document.getElementsByClassName('Wall')) as HTMLInputElement[];
+    const wallInputs: HTMLInputElement[] = Array.from(this.$ref.getElementsByClassName('Wall')) as HTMLInputElement[];
     return this.getArea(wallInputs);
   };
 
   getWindowArea = () => {
     const windowInputs: HTMLInputElement[] = Array.from(
-      document.getElementsByClassName('Window')
+      this.$ref.getElementsByClassName('Window')
     ) as HTMLInputElement[];
     if (windowInputs.length > 0) {
       return this.getArea(windowInputs);
@@ -165,7 +202,7 @@ class WallPaper {
     return 0;
   };
   getDoorArea = () => {
-    const doorInputs: HTMLInputElement[] = Array.from(document.getElementsByClassName('Door')) as HTMLInputElement[];
+    const doorInputs: HTMLInputElement[] = Array.from(this.$ref.getElementsByClassName('Door')) as HTMLInputElement[];
     if (doorInputs.length > 0) {
       return this.getArea(doorInputs);
     }
@@ -180,7 +217,13 @@ class WallPaper {
     const doors = this.getDoorArea();
     const sq_feet = (walls - windows - doors) * 1.1; //plus 10%
     const rolls = Math.ceil(sq_feet / this.roll_area);
-    const result = `You need ${String(rolls)} rolls`;
+    let s: string;
+    if (rolls === 1) {
+      s = '';
+    } else {
+      s = 's';
+    }
+    const result = `You need ${String(rolls)} roll${s}`;
     this.displayResult(result);
   };
 }

@@ -10,12 +10,12 @@
     <script src="main.js"></script>
   </head>
   <body>
-    <div id="wall-cont">
+    <div id="wall-cont" class="wallpaper">
       <!-- Trigger/Open The Modal -->
       <button id="myBtn">Calculate</button>
 
       <!-- The Modal -->
-      <div id="myModal" class="modal">
+      <div id="myModal" class="modal ">
         <!-- Modal content -->
         <div class="modal-content">
           <div class="row">
@@ -32,7 +32,7 @@
           </div>
           <div class="cont" id="Wall">
             <div class="row">
-              <div class="col-2">
+              <div class="col-2" style="display: flex; justify-content: center; align-items: center;">
                 <h3 class="centered-text">
                   Wall 1
                 </h3>
@@ -40,43 +40,44 @@
               <div class="col-4">
                 <h3>Height</h3>
                 <span class="col-2"
-                  ><label for="feet">feet:</label> <input class="Wall" name="feet" type="number" value="0"
+                  ><label for="feet">feet:</label> <input class="Wall input-style" name="feet" type="number" value="0"
                 /></span>
                 <span class="col-2"
-                  ><label for="inches">inches:</label> <input class="Wall" name="inches" type="number" value="0"
+                  ><label for="inches">inches:</label>
+                  <input class="Wall input-style" name="inches" type="number" value="0"
                 /></span>
               </div>
               <div class="col-4">
                 <h3>Width</h3>
                 <span class="col-2"
-                  ><label for="feet">feet:</label> <input class="Wall" name="feet" type="number" value="0"
+                  ><label for="feet">feet:</label> <input class="Wall input-style" name="feet" type="number" value="0"
                 /></span>
                 <span class="col-2"
-                  ><label for="inches">inches:</label> <input class="Wall" name="inches" type="number" value="0"
+                  ><label for="inches">inches:</label>
+                  <input class="Wall input-style" name="inches" type="number" value="0"
                 /></span>
               </div>
               <div class="col-2"></div>
             </div>
-            <hr />
             <div class="row" id="Wall-butt" style="justify-content: center">
-              <button class="addRow">Add Wall</button>
+              <button class="addRow addRowStyle">Add Wall</button>
             </div>
           </div>
 
           <div class="cont" id="Window">
             <div class="row" style="justify-content: center" id="Window-butt">
-              <button class="addRow">Add Window</button>
+              <button class="addRow addRowStyle">Add Window</button>
             </div>
           </div>
 
           <div class="cont" id="Door">
             <div class="row" style="justify-content: center" id="Door-butt">
-              <button class="addRow">Add Door</button>
+              <button class="addRow addRowStyle">Add Door</button>
             </div>
           </div>
           <div class="row" id="result"></div>
           <div class="row" style="justify-content: center">
-            <button id="calculate">Calculate</button>
+            <button id="calculate" class="addRowStyle">Calculate</button>
           </div>
         </div>
       </div>
