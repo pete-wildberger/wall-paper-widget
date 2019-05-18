@@ -77,27 +77,49 @@ class WallPaper {
     const labels: string[] = ['Height', 'Width'];
     const elId: number = parentDiv.childElementCount;
     const row = elementBuilder('div', { id: `id_${elId}`, classList: ['row', 'meassure'] });
-    const titleCont = elementBuilder('div', { classList: ['col-2'] });
-    addStyle(titleCont, { display: 'flex', justifyContent: 'center', alignItems: 'center' });
+    const titleCont = elementBuilder('div', { classList: ['col-2', 't-cont'] });
+    addStyle(titleCont, {
+      display: 'flex',
+      fontFamily: 'sans-serif',
+      justifyContent: 'center',
+      alignItems: 'center'
+    });
     const title = document.createElement('h3');
+    title.style.fontWeight = '200';
     const buttonCol = elementBuilder('div', { classList: ['col-2'] });
     addStyle(buttonCol, { display: 'flex', justifyContent: 'center', alignItems: 'center' });
-    const rm = document.createElement('button');
+    const rm = elementBuilder('button', { classList: ['xbutton'] });
     addStyle(rm, {
       color: 'black',
       height: '2rem',
       border: '2px solid black',
+      margin: '2%',
       width: '2rem',
       backgroundColor: 'white',
       borderRadius: '50%'
     });
-    rm.innerText = 'X';
+    rm.innerText = '×'.charAt(0);
     rm.addEventListener('click', () => {
       this.removeElement(parentDiv.id, `id_${elId}`);
     });
     buttonCol.appendChild(rm);
-    title.innerText = `${parentDiv.id} ${elId}`;
+    title.innerText = `${parentDiv.id.toUpperCase()} ${elId}`;
+    const rmphone = elementBuilder('button', { classList: ['rmphone'] });
+    addStyle(rmphone, {
+      color: 'black',
+      height: '2rem',
+      border: '2px solid black',
+      margin: '2%',
+      width: '2rem',
+      backgroundColor: 'white',
+      borderRadius: '50%'
+    });
+    rmphone.innerText = '×'.charAt(0);
+    rmphone.addEventListener('click', () => {
+      this.removeElement(parentDiv.id, `id_${elId}`);
+    });
     titleCont.appendChild(title);
+    titleCont.appendChild(rmphone);
     row.appendChild(titleCont);
     for (let index = 0; index < 2; index++) {
       row.appendChild(this.generateInputs(labels[index], parentDiv.id));
@@ -165,7 +187,7 @@ class WallPaper {
       if (index % 2 === 0) {
         const feet = input.valueAsNumber * 12;
         const inches = inputs[index + 1].valueAsNumber;
-        if (this.validatePairs(feet, inches)) {
+        if (!this.validatePairs(feet, inches)) {
           return 0;
         } else {
           faces.push(feet + inches);
