@@ -29,7 +29,7 @@
     box-sizing: border-box;
     display: flex;
     flex: 0 1 auto;
-    flex-direction: row;
+    // flex-direction: row;
     flex-wrap: wrap;
     margin-right: var(--gutter-compensation, -0.5rem);
     margin-left: var(--gutter-compensation, -0.5rem);
@@ -39,7 +39,22 @@
     max-width: 100%;
     background-color: transparent;
   }
-
+  .col-2 {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+  .one {
+    order: 0;
+  }
+  .two {
+    order: 2;
+  }
+  .three {
+    order: 3;
+  }
+  .four {
+    order: 1;
+  }
   /* Mobile Landscape Screen Sizes */
   @media only screen and (min-width: 480px) and (max-width: 767px) {
     .col-3,
@@ -57,12 +72,16 @@
       flex-basis: 100%;
       max-width: 100%;
     }
-  }
-  .rmphone {
-    display: none;
-  }
-  .xbutton {
-    display: inline-block;
+    .one {
+      order: 0;
+    }
+    .two {
+      order: 0;
+    }
+    .three {
+    }
+    .four {
+    }
   }
   /* Desktop screen Sizes */
   @media only screen and (min-width: 768px) {
@@ -96,11 +115,17 @@
       flex-basis: 100%;
       max-width: 100%;
     }
-    .rmphone {
-      display: none;
+    .one {
+      order: 1;
     }
-    .xbutton {
-      display: inline-block;
+    .two {
+      order: 2;
+    }
+    .three {
+      order: 3;
+    }
+    .four {
+      order: 4;
     }
   }
   /* The Modal (background) */
@@ -198,8 +223,10 @@
     align-items: center;
     font-size: 36px;
   }
-
-  .xbutton {
-    display: none;
+  .one {
+    order: 1;
+  }
+  .two {
+    order: 2;
   }
 }

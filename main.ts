@@ -2,7 +2,13 @@ window.onload = function() {
   const wallPaper = new WallPaper(1.5 * 33);
   wallPaper.init();
 };
-
+function doMath(i: number): string {
+  if (i === 2) {
+    return 'two';
+  } else {
+    return 'three';
+  }
+}
 function elementBuilder(tagName: string, options: { [key: string]: any }): HTMLElement {
   const element: HTMLElement = document.createElement(tagName);
   for (const attr in options) {
@@ -77,7 +83,7 @@ class WallPaper {
     const labels: string[] = ['Height', 'Width'];
     const elId: number = parentDiv.childElementCount;
     const row = elementBuilder('div', { id: `id_${elId}`, classList: ['row', 'meassure'] });
-    const titleCont = elementBuilder('div', { classList: ['col-2', 't-cont'] });
+    const titleCont = elementBuilder('div', { classList: ['col-2', 'one'] });
     addStyle(titleCont, {
       display: 'flex',
       fontFamily: 'sans-serif',
@@ -86,7 +92,7 @@ class WallPaper {
     });
     const title = document.createElement('h3');
     title.style.fontWeight = '200';
-    const buttonCol = elementBuilder('div', { classList: ['col-2'] });
+    const buttonCol = elementBuilder('div', { classList: ['col-2', 'four'] });
     addStyle(buttonCol, { display: 'flex', justifyContent: 'center', alignItems: 'center' });
     const rm = elementBuilder('button', { classList: ['xbutton'] });
     addStyle(rm, {
@@ -104,33 +110,18 @@ class WallPaper {
     });
     buttonCol.appendChild(rm);
     title.innerText = `${parentDiv.id.toUpperCase()} ${elId}`;
-    const rmphone = elementBuilder('button', { classList: ['rmphone'] });
-    addStyle(rmphone, {
-      color: 'black',
-      height: '2rem',
-      border: '2px solid black',
-      margin: '2%',
-      width: '2rem',
-      backgroundColor: 'white',
-      borderRadius: '50%'
-    });
-    rmphone.innerText = '×'.charAt(0);
-    rmphone.addEventListener('click', () => {
-      this.removeElement(parentDiv.id, `id_${elId}`);
-    });
     titleCont.appendChild(title);
-    titleCont.appendChild(rmphone);
     row.appendChild(titleCont);
     for (let index = 0; index < 2; index++) {
-      row.appendChild(this.generateInputs(labels[index], parentDiv.id));
+      row.appendChild(this.generateInputs(labels[index], parentDiv.id, index));
     }
     row.appendChild(buttonCol);
     parentDiv!.insertBefore(row, buttonRef);
   };
 
-  generateInputs(title: string, className: string): HTMLElement {
+  generateInputs(title: string, className: string, i: number): HTMLElement {
     const labels: string[] = ['feet', 'inches'];
-    const col = elementBuilder('div', { classList: ['col-4'] });
+    const col = elementBuilder('div', { classList: ['col-4', `${doMath(i + 2)}`] });
     const h = document.createElement('h3');
     h.innerText = title;
     col.appendChild(h);
